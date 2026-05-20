@@ -66,7 +66,7 @@ def sub_section(title: str):
 def network_flush_banner(count: int):
     """Print a visually distinct network flush banner."""
     print()
-    print(f"  {C.BG_BLUE}{C.BOLD}{C.WHITE}  ⚡ NETWORK FLUSH — delivering {count} messages (shuffled)  {C.RESET}")
+    print(f"  {C.BG_BLUE}{C.BOLD}{C.WHITE}  ⚡ NETWORK FLUSH - delivering {count} messages (shuffled)  {C.RESET}")
     print()
 
 
@@ -147,7 +147,7 @@ def log_bidirectional_verification(
 def final_result(all_passed: bool):
     """Print the final result banner."""
     if all_passed:
-        print(f"  {C.BG_GREEN}{C.BOLD}{C.WHITE}  ✓ ALL TESTS PASSED — FIFO link working correctly!  {C.RESET}")
+        print(f"  {C.BG_GREEN}{C.BOLD}{C.WHITE}  ✓ ALL TESTS PASSED - FIFO link working correctly!  {C.RESET}")
     else:
-        print(f"  {C.BG_RED}{C.BOLD}{C.WHITE}  ✗ SOME TESTS FAILED — check output above  {C.RESET}")
+        print(f"  {C.BG_RED}{C.BOLD}{C.WHITE}  ✗ SOME TESTS FAILED - check output above  {C.RESET}")
     print()

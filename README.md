@@ -1,4 +1,4 @@
-# Distributed Systems Course — Martin Kleppmann
+# Distributed Systems Course - Martin Kleppmann
 
 Implementations and simulations for exercises from Martin Kleppmann's [Distributed Systems](https://www.cl.cam.ac.uk/teaching/2122/ConcDisSys/dist-sys-notes.pdf) lecture series at the University of Cambridge (Part IB, Michaelmas 2021/22).
 
