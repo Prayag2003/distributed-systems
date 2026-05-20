@@ -19,7 +19,7 @@ Implementations and simulations for exercises from Martin Kleppmann's [Distribut
 
 | Ex  | Chapter | Topic                                    | Directory                                                                      | Status |
 | :-: | :-----: | ---------------------------------------- | ------------------------------------------------------------------------------ | :----: |
-|  4  |    2    | FIFO Links over Reliable Unordered Links | [`fault-tolerance-and-high-tolerance/`](./fault-tolerance-and-high-tolerance/) |   ✅   |
+|  4  |    2    | FIFO Links over Reliable Unordered Links | [`00-fault-tolerance-and-high-tolerance/`](./00-fault-tolerance-and-high-tolerance/) |   ✅   |
 
 > More exercises will be added as I work through the course.
 
