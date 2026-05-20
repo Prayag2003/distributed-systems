@@ -33,18 +33,24 @@ def phase_one(network: Network, node_a: Node, node_b: Node) -> bool:
     return passed
 
 
-def phase_two(network: Network, node_a: Node, node_b: Node) -> bool:
-    """Bidirectional: A↔B send simultaneously."""
+def phase_two(network: Network) -> bool:
+    """Bidirectional: A sends pings, B receives them, then B replies with pongs."""
     visuals.section_header("Phase 2 · Bidirectional  (A ↔ B)", icon="②")
 
-    node_a.delivered.clear()
-    node_b.delivered.clear()
+    # Fresh nodes so seq counters start at 1
+    node_a = Node(node_id=1, network=network)
+    node_b = Node(node_id=2, network=network)
 
+    # Step 1: Node A sends pings to Node B
+    visuals.sub_section("Step 1: Node A sends pings")
     node_a.fifo_send("ping-1", receiver_id=2)
     node_a.fifo_send("ping-2", receiver_id=2)
+    network.flush()
+
+    # Step 2: Node B received the pings, now replies with pongs
+    visuals.sub_section("Step 2: Node B replies with pongs")
     node_b.fifo_send("pong-1", receiver_id=1)
     node_b.fifo_send("pong-2", receiver_id=1)
-
     network.flush()
 
     a_delivered = [m.payload for m in node_a.delivered]
@@ -58,26 +64,28 @@ def phase_two(network: Network, node_a: Node, node_b: Node) -> bool:
     return passed
 
 
-def phase_three(network: Network, node_a: Node, node_b: Node) -> bool:
+def phase_three(network: Network) -> bool:
     """Multiple flushes: seq counters persist across rounds."""
     visuals.section_header("Phase 3 · Multiple Flushes  (persistent seq)", icon="③")
 
-    node_b.delivered.clear()
+    # Fresh nodes so seq counters start at 1
+    node_a = Node(node_id=1, network=network)
+    node_b = Node(node_id=2, network=network)
 
     # Batch 1
     visuals.sub_section("Batch 1")
+    node_a.fifo_send("batch1-msg1", receiver_id=2)
+    node_a.fifo_send("batch1-msg2", receiver_id=2)
+    network.flush()
+
+    # Batch 2 — seq counters continue (seq=3, 4)
+    visuals.sub_section("Batch 2")
     node_a.fifo_send("batch2-msg1", receiver_id=2)
     node_a.fifo_send("batch2-msg2", receiver_id=2)
     network.flush()
 
-    # Batch 2
-    visuals.sub_section("Batch 2")
-    node_a.fifo_send("batch3-msg1", receiver_id=2)
-    node_a.fifo_send("batch3-msg2", receiver_id=2)
-    network.flush()
-
     delivered = [m.payload for m in node_b.delivered]
-    expected = ["batch2-msg1", "batch2-msg2", "batch3-msg1", "batch3-msg2"]
+    expected = ["batch1-msg1", "batch1-msg2", "batch2-msg1", "batch2-msg2"]
     passed = delivered == expected
     visuals.log_verification(expected, delivered, passed)
     return passed
@@ -99,8 +107,8 @@ def main():
     # Run phases
     results = [
         phase_one(network, node_a, node_b),
-        phase_two(network, node_a, node_b),
-        phase_three(network, node_a, node_b),
+        phase_two(network),
+        phase_three(network),
     ]
 
     visuals.final_result(all(results))
