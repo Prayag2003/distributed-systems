@@ -17,8 +17,8 @@ Implementations and simulations for exercises from Martin Kleppmann's [Distribut
 
 ## Exercise Index
 
-| Ex  | Chapter | Topic                                    | Directory                                                                      | Status |
-| :-: | :-----: | ---------------------------------------- | ------------------------------------------------------------------------------ | :----: |
+| Ex  | Chapter | Topic                                    | Directory                                                                            | Status |
+| :-: | :-----: | ---------------------------------------- | ------------------------------------------------------------------------------------ | :----: |
 |  4  |    2    | FIFO Links over Reliable Unordered Links | [`00-fault-tolerance-and-high-tolerance/`](./00-fault-tolerance-and-high-tolerance/) |   ✅   |
 
 > More exercises will be added as I work through the course.
