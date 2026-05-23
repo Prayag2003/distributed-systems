@@ -20,6 +20,8 @@ Implementations and simulations for exercises from Martin Kleppmann's [Distribut
 | Ex  | Chapter | Topic                                    | Directory                                                                            | Status |
 | :-: | :-----: | ---------------------------------------- | ------------------------------------------------------------------------------------ | :----: |
 |  4  |    2    | FIFO Links over Reliable Unordered Links | [`00-fault-tolerance-and-high-tolerance/`](./00-fault-tolerance-and-high-tolerance/) |   ✅   |
+|  -  |    3    | Lamport Clocks                           | [`01-lamport-clocks/`](./01-lamport-clocks/)                                         |   ✅   |
+|  -  |    3    | Vector Clocks                            | [`02-vector-clocks/`](./02-vector-clocks/)                                           |   ✅   |
 
 > More exercises will be added as I work through the course.
 
