@@ -1,8 +1,8 @@
-# Exercise — Lamport Clocks
+# Exercise - Lamport Clocks
 
-> **Course**: Distributed Systems — Martin Kleppmann (University of Cambridge)  
+> **Course**: Distributed Systems - Martin Kleppmann (University of Cambridge)  
 > **Topic**: Broadcast Protocols and Logical Time  
-> **Chapter**: 4 — Logical Time
+> **Chapter**: 4 - Logical Time
 
 ## The Problem
 
@@ -50,9 +50,9 @@ Two independent events on different nodes may happen to get ordered timestamps p
 | Property                         | Guaranteed? | Notes                                                        |
 | -------------------------------- | :---------: | ------------------------------------------------------------ |
 | `a → b ⟹ T(a) < T(b)`          |     ✅      | Core guarantee                                               |
-| `T(a) < T(b) ⟹ a → b`          |     ❌      | False — concurrent events can have ordered timestamps        |
+| `T(a) < T(b) ⟹ a → b`          |     ❌      | False - concurrent events can have ordered timestamps        |
 | Concurrency detection            |     ❌      | Cannot determine if two events are concurrent                |
-| Compact representation           |     ✅      | Single integer per message — very lightweight                |
+| Compact representation           |     ✅      | Single integer per message - very lightweight                |
 
 ## This Simulation
 
@@ -84,19 +84,19 @@ Two independent events on different nodes may happen to get ordered timestamps p
 
 ```
 01-lamport-clocks/
-├── main.py        # Entry point — runs 4 simulation phases
+├── main.py        # Entry point - runs 4 simulation phases
 ├── message.py     # Message dataclass (payload, sender, receiver, timestamp)
 ├── network.py     # Reliable unordered link (shuffles on flush)
 ├── node.py        # Lamport clock algorithm (local/send/receive rules)
-├── visuals.py     # Terminal output — ANSI colors, timelines, verification
+├── visuals.py     # Terminal output - ANSI colors, timelines, verification
 └── README.md      # ← You are here
 ```
 
 | File                         | Role                                                                      |
 | ---------------------------- | ------------------------------------------------------------------------- |
-| [`message.py`](./message.py) | Pure data — `Message` dataclass with Lamport timestamp                    |
+| [`message.py`](./message.py) | Pure data - `Message` dataclass with Lamport timestamp                    |
 | [`network.py`](./network.py) | Simulates a reliable link that **reorders** messages (`random.shuffle`)   |
-| [`node.py`](./node.py)       | The heart of the exercise — Lamport clock rules: `t++`, `max(t,msg)+1`  |
+| [`node.py`](./node.py)       | The heart of the exercise - Lamport clock rules: `t++`, `max(t,msg)+1`  |
 | [`visuals.py`](./visuals.py) | Pretty terminal output with ANSI colors and event timelines               |
 | [`main.py`](./main.py)       | Orchestrates 4 phases and verifies clock invariants                       |
 
@@ -106,32 +106,32 @@ Two independent events on different nodes may happen to get ordered timestamps p
 python3 main.py
 ```
 
-No external dependencies — uses only Python standard library.
+No external dependencies - uses only Python standard library.
 
 ## Simulation Phases
 
-### Phase 1 — Simple Exchange (A ↔ B)
+### Phase 1 - Simple Exchange (A ↔ B)
 
 Node A does a local event, sends to B. Node B receives, does a local event, sends back. Verifies that `T(send) < T(receive)` holds for both messages.
 
-### Phase 2 — Concurrent Sends (A ↔ B)
+### Phase 2 - Concurrent Sends (A ↔ B)
 
 Both nodes send messages before either receives anything. Despite the concurrency, the `T(send) < T(receive)` invariant still holds for each individual message.
 
-### Phase 3 — Causal Chain (A → B → C)
+### Phase 3 - Causal Chain (A → B → C)
 
 A sends to B, B processes and forwards to C. Verifies transitivity: `T(A_send) < T(B_recv) < T(B_send) < T(C_recv)`.
 
-### Phase 4 — Limitation Demo
+### Phase 4 - Limitation Demo
 
 Two nodes perform independent local events with no communication. Lamport clocks assign ordered timestamps (`T=2 > T=1`) even though the events are **concurrent**. This demonstrates the fundamental limitation and motivates vector clocks.
 
 ## Key Takeaways
 
-1. **Lamport clocks are lightweight** — just a single integer per event, one integer piggybacked on each message.
-2. **They capture causality in one direction** — if `a → b` then `T(a) < T(b)`, guaranteed.
-3. **They cannot detect concurrency** — `T(a) < T(b)` might be coincidental, not causal. You need **vector clocks** to distinguish "happened-before" from "concurrent".
-4. **The `max` rule is critical** — without it, a receiver's clock could fall behind the sender's, breaking the causality guarantee.
+1. **Lamport clocks are lightweight** - just a single integer per event, one integer piggybacked on each message.
+2. **They capture causality in one direction** - if `a → b` then `T(a) < T(b)`, guaranteed.
+3. **They cannot detect concurrency** - `T(a) < T(b)` might be coincidental, not causal. You need **vector clocks** to distinguish "happened-before" from "concurrent".
+4. **The `max` rule is critical** - without it, a receiver's clock could fall behind the sender's, breaking the causality guarantee.
 
 ## References
 
